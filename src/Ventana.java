@@ -18,17 +18,7 @@ public class Ventana {
 
     Lista paquetes = new Lista();
     public Ventana() {
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    paquetes.adicionarElemento(new Paqueteria(Integer.parseInt(spinner1.getValue().toString()) , Integer.parseInt(textField1.getText()), comboBox1.getSelectedItem().toString(), comboBox2.getSelectedItem().toString(), textField2.getText().toString()));
 
-                    System.out.println(paquetes.listarPaquetes());
-                }catch (Exception ex){
-                    JOptionPane.showMessageDialog(null, ex.getMessage());
-                }}
-        });
         totaplPaqueteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -40,6 +30,24 @@ public class Ventana {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, paquetes.sumarTotalPeso());
             }
+        });
+        totalPesoPorCiudadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "El total de peso por ciudad es: " + paquetes.sumarTotalPesoCiudad(comboBox3.getSelectedItem().toString()));
+            }
+        });
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                    try {
+                        paquetes.adicionarElemento(new Paqueteria(Integer.parseInt( spinner1.getValue().toString()) , Integer.parseInt(textField1.getText()), comboBox1.getSelectedItem().toString(), comboBox2.getSelectedItem().toString(), textField2.getText().toString()));
+
+                        System.out.println(paquetes.listarPaquetes());
+                    }catch (Exception ex){
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }}
         });
     }
 

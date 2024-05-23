@@ -16,8 +16,8 @@ public class Lista {
                 if(pa.getTracking()==p.getTracking()){
                     throw new Exception("El tracking ya esta registrado");
                 }
-
             }
+            serviEntrega.add(p);
         }
 
     }
@@ -55,27 +55,36 @@ public class Lista {
     }
 
 
-   public int  sumarTotalPeso(String ciudad){
+   public int  sumarTotalPeso(){
         return totalPeso(0);
     }
 
 
-    private int totalPeso(int indice{
+    private int totalPeso(int indice){
         if(serviEntrega.size()==indice){
             return 0;
         }else{
-            return serviEntrega.get(indice).getPeso()+totalPaquetes(indice+1);
+            return serviEntrega.get(indice).getPeso()+totalPeso(indice+1);
 
         }
     }
 
-    private double sumarTotalPesoCiudad(String ciudad){
-
+    public double sumarTotalPesoCiudad(String ciudad){
+        return totalPesoCiudad(0, ciudad);
     }
 
-    public  double totalPesoCiudad(int indice, String ciudad){
+    private  double totalPesoCiudad(int indice, String ciudad){
+        if(serviEntrega.size()==indice){
+            return 0;
+        } else if (serviEntrega.get(indice).getCiudadEntrega().equals(ciudad)){
+            return serviEntrega.get(indice).getPeso()+totalPesoCiudad(indice+1, ciudad);
 
+        }else{
+            return totalPesoCiudad(indice+1, ciudad);
+        }
+
+        }
     }
 
 
-}
+
