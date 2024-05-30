@@ -3,6 +3,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ventana {
@@ -16,7 +17,7 @@ public class Ventana {
     private JTextField textFieldPeso;
     private JButton totaplPaqueteButton;
     private JButton totalPesoButton;
-    private JComboBox comboBox3;
+    private JComboBox comboBoxCiudad;
     private JButton totalPesoPorCiudadButton;
     private JList list1;
     private JButton modificarButton;
@@ -27,12 +28,20 @@ public class Ventana {
     private JList listNormal;
     private JList listOrdenada;
     private JButton ordenarPorIncersiónPesoButton;
+    private JButton verEstadoButton;
+    private JButton pesoEstadoButton;
+    private JComboBox comboBoxEstado;
+    private JTextArea textAreaModificada;
+    private JList list2;
+    private JTextArea textAreaNormal;
 
     Lista paquetes = new Lista();
 
 
+
     public Ventana() {
         quemarDatos();
+        llenarJList();
 
         totaplPaqueteButton.addActionListener(new ActionListener() {
             @Override
@@ -49,7 +58,7 @@ public class Ventana {
         totalPesoPorCiudadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "El total de peso por ciudad es: " + paquetes.sumarTotalPesoCiudad(comboBox3.getSelectedItem().toString()));
+                JOptionPane.showMessageDialog(null, "El total de peso por ciudad es: " + paquetes.sumarTotalPesoCiudad(comboBoxCiudad.getSelectedItem().toString()));
             }
         });
         button1.addActionListener(new ActionListener() {
@@ -77,6 +86,8 @@ public class Ventana {
                     spinner1.setValue(pa.getTracking());
                     textFieldPeso.setText(String.valueOf(pa.getPeso()));
                     comboBox1.setSelectedItem(pa.getCiudadEntrega());
+                    comboBox2.setSelectedItem(pa.getCiudadRecepcion());
+                    textFieldCedula.setText(pa.getCedulaReceptor());
                 }
             }
         });
@@ -84,19 +95,29 @@ public class Ventana {
         modificarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Paqueteria paquete1= paquetes.buscarPaqueteria(Integer.parseInt(spinner1.getValue().toString()));
-                paquetes.cambiar(paquete1, Integer.parseInt(textFieldPeso.toString()), comboBox1.getSelectedItem().toString(), comboBox2.getSelectedItem().toString(), textFieldCedula.getText().toString());
+                Paqueteria paquete1= null;
+                try {
+                    paquete1 = paquetes.buscarPaqueteria(Integer.parseInt(spinner1.getValue().toString()));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+                paquetes.cambiar(paquete1, Integer.parseInt(textFieldPeso.getText().toString()), comboBox1.getSelectedItem().toString(), comboBox2.getSelectedItem().toString(), textFieldCedula.getText().toString());
             llenarJList();
             }
         });
         modificarButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               Paqueteria paquete1 =  paquetes.buscarPaqueteria(Integer.parseInt(spinner2.getValue().toString()));
-                textPane1.setText(paquete1.estado);
+                Paqueteria paquete1 = null;
+                try {
+                    paquete1 = paquetes.buscarPaqueteria(Integer.parseInt(spinner2.getValue().toString()));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+                textPane1.setText("Tracking="+paquete1.getTracking()+"\nEstado="+paquete1.getEstado());
                 try {
                     paquete1.cambiarEstado();
-                    textPane1.setText(paquete1.estado);
+                    textPane1.setText("Tracking="+paquete1.getTracking()+"\nEstado="+paquete1.getEstado());
                     JOptionPane.showMessageDialog(null, "Se ha cambiado el estado del paquete");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -107,11 +128,39 @@ public class Ventana {
         ordenarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Lista paqueteria2;
-                paqueteria2=paquetes;
+                Lista paqueteria2 = new Lista();
+                paqueteria2.serviEntrega=(paquetes.listarPaquetes());
                 Lista listaburbuja = ordenarBurbuja(paqueteria2);
-                llenarJList2(listaburbuja);
-                llenarJList3();
+                textAreaModificada.setText(listaburbuja.listarPaquetes().toString());
+                llenarJList2();
+            }
+        });
+        verEstadoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Paqueteria paquete1 = null;
+                try {
+                    paquete1 = paquetes.buscarPaqueteria(Integer.parseInt(spinner2.getValue().toString()));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+                textPane1.setText("Tracking="+paquete1.getTracking()+"\nEstado="+paquete1.getEstado());
+            }
+        });
+        pesoEstadoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "El total de peso por estado es: " + paquetes.sumarTotalPesoEstado(comboBoxEstado.getSelectedItem().toString()));
+            }
+        });
+        ordenarPorIncersiónPesoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Lista paqueteria2 = new Lista();
+                paqueteria2.serviEntrega=(paquetes.listarPaquetes());
+                Lista listaInsercion = ordenarInsercion(paqueteria2);
+                textAreaModificada.setText(listaInsercion.listarPaquetes().toString());
+                llenarJList2();
             }
         });
     }
@@ -130,8 +179,9 @@ public class Ventana {
     public void quemarDatos(){
         try{
         paquetes.adicionarElemento(new Paqueteria(1, 10, "Quito", "Guayaquil", "123"));
+        paquetes.adicionarElemento(new Paqueteria(3, 5, "Guayaquil", "Cuenca", "12345"));
         paquetes.adicionarElemento(new Paqueteria(2, 35, "Cuenca", "Quito", "1234"));
-        paquetes.adicionarElemento(new Paqueteria(3, 5, "Guayaquil", "Cuenca", "1234"));
+
 
         }catch(Exception ex){}}
 
@@ -144,37 +194,29 @@ public class Ventana {
         list1.setModel(dlm);
 
     }
-    public void llenarJList2(Lista listarB ){
+
+    public void llenarJList2(){
         DefaultListModel dlm2 = new DefaultListModel();
         dlm2.removeAllElements();
-        for(Paqueteria pa:listarB.listarPaquetes()){
+        for(Paqueteria pa:paquetes.listarPaquetes()){
             dlm2.addElement(pa);
         }
-        listOrdenada.setModel(dlm2);
-
-    }
-    public void llenarJList3(){
-        DefaultListModel dlm3 = new DefaultListModel();
-        dlm3.removeAllElements();
-        for(Paqueteria pa:paquetes.listarPaquetes()){
-            dlm3.addElement(pa);
-        }
-        listNormal.setModel(dlm3);
+        list2.setModel(dlm2);
 
     }
 
     public Lista ordenarBurbuja(Lista paquetes){
-        List<Paqueteria> paquetes2 = paquetes.listarPaquetes();
-for(int i=0; i<paquetes2.size(); i++){
+        //List<Paqueteria> paquetes2 = paquetes.listarPaquetes();
+for(int i=0; i<paquetes.getServiEntrega().size(); i++){
     boolean swapped = false;
-            for(int j=0; j<paquetes2.size()-i-1; j++){
-                Paqueteria p1= (Paqueteria) paquetes2.get(j);
-                Paqueteria p2 = (Paqueteria) paquetes2.get(j+1);
+            for(int j=0; j<paquetes.getServiEntrega().size()-i-1; j++){
+                Paqueteria p1= (Paqueteria) paquetes.getServiEntrega().get(j);
+                Paqueteria p2 = (Paqueteria) paquetes.getServiEntrega().get(j+1);
 
                 if(p1.getTracking()> p2.getTracking()){
-                    Paqueteria aux = (Paqueteria) paquetes2.get(j);
-                    paquetes2.set(j, p2);
-                    paquetes2.set(j+1, p1);
+                    Paqueteria aux = (Paqueteria) paquetes.getServiEntrega().get(j);
+                    paquetes.getServiEntrega().set(j, p2);
+                    paquetes.getServiEntrega().set(j+1, p1);
                     swapped = true;
                 }
             }
@@ -182,10 +224,27 @@ for(int i=0; i<paquetes2.size(); i++){
                 break;
             }
         }
-    return  (Lista) paquetes2;
+    return  paquetes;
 
     }
+    public Lista ordenarInsercion(Lista paquetes) {
+        int n = paquetes.serviEntrega.size();
+        for (int i = 1; i < n; ++i) {
+            Paqueteria p = paquetes.serviEntrega.get(i);
+            int j = i - 1;
 
+            // Mover elementos de elementos[0..i-1], que son mayores que p,
+            // a una posición adelante de su posición actual
+
+            while (j >= 0 && paquetes.serviEntrega.get(j).getPeso() > p.getPeso()) {
+                paquetes.serviEntrega.set(j + 1, paquetes.serviEntrega.get(j));
+                j = j - 1;
+            }
+            paquetes.serviEntrega.set(j + 1, p);
+        }
+return paquetes;
+
+    }
     public void limpiar(){
         textFieldCedula.setText("");
         textFieldPeso.setText("");

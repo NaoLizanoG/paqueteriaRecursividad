@@ -36,13 +36,14 @@ public class Lista {
        paquete.setCedulaReceptor(cedulaReceptor);
     }
 
-    public Paqueteria buscarPaqueteria(int tracking){
-        for(Paqueteria pa:serviEntrega){
-            if(pa.getTracking()==tracking){
+    public Paqueteria buscarPaqueteria(int tracking)throws Exception {
+        for (Paqueteria pa : serviEntrega) {
+            if (pa.getTracking() == tracking) {
                 return pa;
             }
+
         }
-        return null;
+        throw new Exception("No se encontro el paquete");
     }
 
     public List<Paqueteria> listarPaquetes() {
@@ -97,7 +98,26 @@ public class Lista {
         }
 
         }
+
+
+    public double sumarTotalPesoEstado(String estado){
+        return totalPesoEstado(0, estado);
     }
+
+    private  double totalPesoEstado(int indice, String estado){
+        if(serviEntrega.size()==indice){
+            return 0;
+        } else if (serviEntrega.get(indice).getEstado().equals(estado)){
+            return serviEntrega.get(indice).getPeso()+totalPesoEstado(indice+1, estado);
+
+        }else{
+            return totalPesoCiudad(indice+1, estado);
+        }
+
+    }
+
+
+}
 
 
 

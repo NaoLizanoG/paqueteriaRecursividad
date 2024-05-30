@@ -157,7 +157,7 @@
               </component>
             </children>
           </grid>
-          <grid id="976d5" layout-manager="GridLayoutManager" row-count="6" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="976d5" layout-manager="GridLayoutManager" row-count="9" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Total"/>
@@ -167,7 +167,7 @@
             <children>
               <vspacer id="beb79">
                 <constraints>
-                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
               </vspacer>
               <component id="313a8" class="javax.swing.JButton" binding="totaplPaqueteButton" default-binding="true">
@@ -186,7 +186,7 @@
                   <text value="Total Peso"/>
                 </properties>
               </component>
-              <component id="9fb56" class="javax.swing.JComboBox" binding="comboBox3" default-binding="true">
+              <component id="9fb56" class="javax.swing.JComboBox" binding="comboBoxCiudad">
                 <constraints>
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -214,9 +214,38 @@
                   <text value="Ciudad recepcion"/>
                 </properties>
               </component>
+              <component id="287f6" class="javax.swing.JButton" binding="pesoEstadoButton">
+                <constraints>
+                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Total peso por estado de envío"/>
+                </properties>
+              </component>
+              <component id="77b77" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Estado del paquete"/>
+                </properties>
+              </component>
+              <component id="e8877" class="javax.swing.JComboBox" binding="comboBoxEstado">
+                <constraints>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <model>
+                    <item value="Enviado"/>
+                    <item value="Entregado"/>
+                    <item value="Recibido"/>
+                    <item value="Indefinido"/>
+                  </model>
+                </properties>
+              </component>
             </children>
           </grid>
-          <grid id="ad7c0" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="ad7c0" layout-manager="GridLayoutManager" row-count="5" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Modificar"/>
@@ -240,7 +269,7 @@
               </component>
               <component id="8c659" class="javax.swing.JButton" binding="modificarButton1" default-binding="true">
                 <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Modificar"/>
@@ -253,6 +282,14 @@
                   </grid>
                 </constraints>
                 <properties/>
+              </component>
+              <component id="daa3f" class="javax.swing.JButton" binding="verEstadoButton" default-binding="true">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Ver Estado"/>
+                </properties>
               </component>
             </children>
           </grid>
@@ -284,7 +321,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="16d90" class="javax.swing.JList" binding="listNormal">
+                  <component id="94512" class="javax.swing.JTextArea" binding="textAreaModificada">
                     <constraints/>
                     <properties/>
                   </component>
@@ -297,7 +334,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="61441" class="javax.swing.JList" binding="listOrdenada">
+                  <component id="ea8bc" class="javax.swing.JList" binding="list2" default-binding="true">
                     <constraints/>
                     <properties/>
                   </component>

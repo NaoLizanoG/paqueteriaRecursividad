@@ -16,18 +16,18 @@ public class Paqueteria {
         this.ciudadEntrega = ciudadEntrega;
         this.ciudadRecepcion = ciudadRecepcion;
         this.cedulaReceptor = cedulaReceptor;
+        this.estado="Indefinido";
     }
     
     public void cambiarEstado()throws Exception{
-
-        if (estado.equals("Enviado")){
+        if (estado=="Indefinido"){
+            estado="Enviado";
+        }
+        else if (estado.equals("Enviado")){
             estado="Entregado";
         } else if (estado.equals("Entregado")){
             estado="Recibido";
-        } else if (estado.equals(null)){
-            estado="Enviado";
-
-        } else if (estado.equals("Recibido")) {
+        }  else if (estado.equals("Recibido")) {
             throw new Exception("El paquete ya fue recibido");
 
         }
@@ -85,13 +85,11 @@ public class Paqueteria {
 
     @java.lang.Override
     public java.lang.String toString() {
-        return "Paqueteria{" +
-                "tracking=" + tracking +
+        return "tracking=" + tracking +
                 ", peso=" + peso +
-                ", ciudadEntrega=" + ciudadEntrega +
-                ", ciudadRecepcion=" + ciudadRecepcion +
-                ", cedulaReceptor=" + cedulaReceptor +
-                ", estado=" + estado +
-                '}';
+                ", Ciudad Entrega=" + ciudadEntrega +
+                ", Ciudad Recepcion=" + ciudadRecepcion +
+                ", cedula Receptor=" + cedulaReceptor +
+                ", estado=" + estado+"\n";
     }
 }
