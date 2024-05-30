@@ -3,8 +3,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Ventana {
     private JPanel Ventana;
@@ -33,6 +31,10 @@ public class Ventana {
     private JComboBox comboBoxEstado;
     private JTextArea textAreaModificada;
     private JList list2;
+    private JTextPane textPane2;
+    private JSpinner spinner3;
+    private JButton búsquedaNoLinealButton;
+    private JButton totalPorEstadoButton;
     private JTextArea textAreaNormal;
 
     Lista paquetes = new Lista();
@@ -163,6 +165,26 @@ public class Ventana {
                 llenarJList2();
             }
         });
+        búsquedaNoLinealButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Lista paqueteria2 = new Lista();
+                    paqueteria2.serviEntrega=(paquetes.listarPaquetes());
+                    Lista listaInsercion = ordenarBurbuja(paqueteria2);
+                    Paqueteria paquete1 = buscarBinario(listaInsercion);
+                    textPane2.setText(paquete1.toString());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            }
+        });
+        totalPorEstadoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "El total de paquetes por estado es: " + paquetes.sumarTotalEstado(comboBoxEstado.getSelectedItem().toString()));
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -206,7 +228,6 @@ public class Ventana {
     }
 
     public Lista ordenarBurbuja(Lista paquetes){
-        //List<Paqueteria> paquetes2 = paquetes.listarPaquetes();
 for(int i=0; i<paquetes.getServiEntrega().size(); i++){
     boolean swapped = false;
             for(int j=0; j<paquetes.getServiEntrega().size()-i-1; j++){
@@ -233,8 +254,6 @@ for(int i=0; i<paquetes.getServiEntrega().size(); i++){
             Paqueteria p = paquetes.serviEntrega.get(i);
             int j = i - 1;
 
-            // Mover elementos de elementos[0..i-1], que son mayores que p,
-            // a una posición adelante de su posición actual
 
             while (j >= 0 && paquetes.serviEntrega.get(j).getPeso() > p.getPeso()) {
                 paquetes.serviEntrega.set(j + 1, paquetes.serviEntrega.get(j));
@@ -245,6 +264,28 @@ for(int i=0; i<paquetes.getServiEntrega().size(); i++){
 return paquetes;
 
     }
+
+    public Paqueteria buscarBinario(Lista paquetes)throws Exception{
+        int inicio =0;
+        int fin = paquetes.serviEntrega.size()-1;
+        int medio;
+        int resultado=-1;
+        while(inicio<=fin){
+            medio=(inicio+fin)/2;
+            if(paquetes.serviEntrega.get(medio).getTracking()==Integer.parseInt(spinner3.getValue().toString())){
+                resultado=medio;
+                fin=inicio-1;
+                return paquetes.serviEntrega.get(resultado);
+        } else if (paquetes.serviEntrega.get(medio).getTracking()<Integer.parseInt(spinner3.getValue().toString())){
+                inicio=medio+1;
+
+        }else {
+                fin=medio-1;
+            }
+        }
+        throw new Exception("No se encontro el paquete");
+            }
+
     public void limpiar(){
         textFieldCedula.setText("");
         textFieldPeso.setText("");

@@ -54,6 +54,14 @@ public class Lista {
         return lista;
     }
 
+    public List<Paqueteria> listarCedulaEstado(String cedula, String estado) {
+        List<Paqueteria> lista = new ArrayList<>();
+        for (Paqueteria pa : serviEntrega) {
+            lista.add(pa);
+        }
+        return lista;
+    }
+
 
     public  int sumarTotalPaquetes(){
         return totalPaquetes(0);
@@ -111,13 +119,31 @@ public class Lista {
             return serviEntrega.get(indice).getPeso()+totalPesoEstado(indice+1, estado);
 
         }else{
-            return totalPesoCiudad(indice+1, estado);
+            return totalPesoEstado(indice+1, estado);
         }
 
     }
 
+    public  int sumarTotalEstado(String estado){
+        return totalEstado(0, estado);
+    }
+
+    private int totalEstado(int indice, String estado){
+        if(serviEntrega.size()==indice){
+            return 0;
+        }else if (serviEntrega.get(indice).getEstado().equals(estado)){
+            return 1+totalEstado(indice+1, estado);
+
+        }else{
+            return totalEstado(indice+1, estado);
+
+        }
+    }
+
+
+
+
+
+
 
 }
-
-
-

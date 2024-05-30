@@ -20,10 +20,9 @@ public class Paqueteria {
     }
     
     public void cambiarEstado()throws Exception{
-        if (estado=="Indefinido"){
+        if (estado.equals("Indefinido")){
             estado="Enviado";
-        }
-        else if (estado.equals("Enviado")){
+        } else if (estado.equals("Enviado")){
             estado="Entregado";
         } else if (estado.equals("Entregado")){
             estado="Recibido";
