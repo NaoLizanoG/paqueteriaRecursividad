@@ -4,6 +4,14 @@ import java.util.List;
 public class Lista {
     List<Paqueteria> serviEntrega;
 
+    public List<Paqueteria> getServiEntrega() {
+        return serviEntrega;
+    }
+
+    public void setServiEntrega(List<Paqueteria> serviEntrega) {
+        this.serviEntrega = serviEntrega;
+    }
+
     public Lista(){
         serviEntrega = new ArrayList<Paqueteria>();
     }
@@ -21,12 +29,17 @@ public class Lista {
         }
 
     }
+    public void cambiar(Paqueteria paquete,int peso, String ciudadEntrega, String ciudadRecepcion, String cedulaReceptor){
+       paquete.setPeso(peso);
+       paquete.setCiudadEntrega(ciudadEntrega);
+       paquete.setCiudadRecepcion(ciudadRecepcion);
+       paquete.setCedulaReceptor(cedulaReceptor);
+    }
 
-
-    public String buscarPaqueteria(int tracking){
+    public Paqueteria buscarPaqueteria(int tracking){
         for(Paqueteria pa:serviEntrega){
             if(pa.getTracking()==tracking){
-                return pa.getEstado();
+                return pa;
             }
         }
         return null;

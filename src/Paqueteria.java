@@ -17,6 +17,23 @@ public class Paqueteria {
         this.ciudadRecepcion = ciudadRecepcion;
         this.cedulaReceptor = cedulaReceptor;
     }
+    
+    public void cambiarEstado()throws Exception{
+
+        if (estado.equals("Enviado")){
+            estado="Entregado";
+        } else if (estado.equals("Entregado")){
+            estado="Recibido";
+        } else if (estado.equals(null)){
+            estado="Enviado";
+
+        } else if (estado.equals("Recibido")) {
+            throw new Exception("El paquete ya fue recibido");
+
+        }
+
+
+    }
 
     public int getTracking() {
         return tracking;
