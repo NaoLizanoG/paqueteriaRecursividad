@@ -3,6 +3,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ventana {
     private JPanel Ventana;
@@ -35,6 +37,10 @@ public class Ventana {
     private JSpinner spinner3;
     private JButton búsquedaNoLinealButton;
     private JButton totalPorEstadoButton;
+    private JTextField textFieldCedulaB;
+    private JComboBox comboBox3;
+    private JTextPane textPane3;
+    private JButton buscar2Button;
     private JTextArea textAreaNormal;
 
     Lista paquetes = new Lista();
@@ -183,6 +189,14 @@ public class Ventana {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "El total de paquetes por estado es: " + paquetes.sumarTotalEstado(comboBoxEstado.getSelectedItem().toString()));
+            }
+        });
+        buscar2Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                   Lista  lista = new Lista();
+                   lista.serviEntrega =   paquetes.listarCedulaEstado(textFieldCedulaB.getText().toString(), comboBox3.getSelectedItem().toString());
+                   textPane3.setText(lista.listarPaquetes().toString());
             }
         });
     }

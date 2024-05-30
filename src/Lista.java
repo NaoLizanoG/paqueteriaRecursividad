@@ -57,8 +57,9 @@ public class Lista {
     public List<Paqueteria> listarCedulaEstado(String cedula, String estado) {
         List<Paqueteria> lista = new ArrayList<>();
         for (Paqueteria pa : serviEntrega) {
+            if(pa.getCedulaReceptor().equals(cedula) && pa.getEstado().equals(estado)){
             lista.add(pa);
-        }
+        }}
         return lista;
     }
 
